@@ -151,7 +151,7 @@
               var svg = d3.select("body").append("svg")
                             .attr("width", 800)
                             .attr("height", 500);
-                d3.json("https://bl.ocks.org/susielu/raw/9526340/75ad984d0b3fe653baf8ddddf46857497eb787f2/graph.json",function(error, json){
+                d3.json("https://raw.github.com/ischoolsystems/ischoolsystems.github.io/master/graph.json",function(error, json){
                     //console.log(json);
                     var nodes = json.nodes.map(function(d){
                         return {
