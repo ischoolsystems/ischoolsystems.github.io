@@ -1,389 +1,143 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <style>
-        
-                    /*.node circle {
-                    fill: rgb(168, 200, 248);
-                    stroke: grey;
-                    stroke-width: 1px;
-                    }*/
-                    
-                    .link {
-                    stroke: black;
-                    stroke-width: 1px;
-                    opacity: .2;
-                    }
-                    
-                    .label {
-                    font-family: Arial;
-                    font-size: 12px;
-                    }
-        </style>
-    </head>
-    <body>
-        <button onclick="runAlgo()">Run</button>
-        <div>
+<!-- TODO: Make this Accesible (sr-only) -->
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>SS</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .full-screen {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+                <a class="navbar-brand" href="#">ISchool Systems</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right subMenu">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#service">Services</a></li>
+                    <li><a href="#solutions">Solutions</a></li>
+                    <li><a href="#contact">Contact us</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-        
-        <script src="https://d3js.org/d3.v3.min.js"></script>
-        <script>
-            Math.getDistance = function( x1, y1, x2, y2 ) {
-                
-                var xs = x2 - x1,
-                    ys = y2 - y1;		
-                xs *= xs;
-                ys *= ys;
-                
-                return Math.sqrt( xs + ys );
-            };
-            var current = null;
-            var edges = null;
-    
-            function runAlgo(){
-                if(current!==null){
+    </nav>
+    <div class="container-fluid" style="height:100%">
 
-                    var graph = {};
-                    for(var i=0; i < 26; i++){
-                        graph[i] = []
-                    }
-                    for(var x in edges){
-                        edge = edges[x];
-                        graph[edge.source].push(edge.target);
-                        graph[edge.target].push(edge.source)
-                    }
-                    console.log(graph);
+        <!--Carousal-->
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="https://unsplash.it/2000/1250?image=397" alt="...">
+                    <div class="carousel-caption">
+                        Anir
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="https://unsplash.it/2000/1250?image=397" alt="...">
+                    <div class="carousel-caption">
+                        ush
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="https://unsplash.it/2000/1250?image=397" alt="...">
+                    <div class="carousel-caption">
+                        ...
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+            </a>
+        </div>
 
-
-                    var pq = new PriorityQueue();
-                    var dist = {};
-                    var prev = {};
-
-                    var starterNode = current[0].parentNode.id.split("n-")[1];
-
-                    dist[starterNode] = 0;
-
-                    for(var i = 0; i < 26 ;i++){
-                        if(i.toString()!==starterNode){
-                            dist[i] = 3000; //Yeah, this is the max
-                            prev[i] = null;
-                            pq.push(i,3000);
-                        }     
-                        else{
-                            pq.push(i,0);
-                        }          
-                    }
-                    while(pq.size()>0){
-                        var near = pq.pop();
-                        var neighbours = graph[near];
-                        neighbours.forEach(function(x){
-
-                          x1 =  parseInt(d3.select('g#n-'+x).select('circle').attr('cx'))
-                          y1 =  parseInt(d3.select('g#n-'+x).select('circle').attr('cy'))
-
-                          x2 =  parseInt(d3.select('g#n-'+near).select('circle').attr('cx'))
-                          y2 =  parseInt(d3.select('g#n-'+near).select('circle').attr('cy'))
+    </div>
+    <!-- /container -->
+    <div id="about" style="height: 300px">
+        <h1>About</h1>
+    </div>
+    <div id="service" style="height: 300px">
+        <h1>Services</h1>
+    </div>
+    <div id="solutions" style="height: 300px">
+        <h1>Solutions</h1>
+    </div>
+    <div id="contact" style="height: 300px">
+        <h1>Contact</h1>
+    </div>
 
 
-                            new_dist = dist[near] + Math.getDistance(x1,y1,x2,y2);
-                            if(new_dist < dist[x]){
-                                dist[x] = new_dist;
-                                prev[x] = new_dist;
-                                pq.remove(x);
-                                pq.push(x,new_dist);
-                            }
-                        });
-                        
-                    }
 
-                    console.log(dist);  
-                    window.x = dist;
-
-                var sorted = Object.keys(dist)
-                    .sort(function(a,b) { return (+dist[a] - +dist[b])})
-                .map(function(k) { return { key: k, value: dist[k] }});
-                window.x = sorted;
-                for(var i = 0; i <sorted.length; i++){
-                    var ele =sorted[i].key;
-                   d3.selectAll("#n-"+ele).select("text").text(i);
-                }
-
-                alert("nodes are ranked based on distance");
-                               
-
-                }
-                else{
-                    alert("click on a node");
-                }
-            }
-            // Ripped of PQueue
-            function PriorityQueue() {
-                this.data = []
-            }
-
-            PriorityQueue.prototype.push = function(element, priority) {
-                priority = +priority
-                for (var i = 0; i < this.data.length && this.data[i][1] < priority; i++);
-                this.data.splice(i, 0, [element, priority])
-            }
-
-            PriorityQueue.prototype.remove = function(element){
-                for(var i=0; i < this.data.length; i++){
-                    if(this.data[i][0] ==element){
-                        this.data.splice(i,1);
-                    }
-                }
-            }
-
-            PriorityQueue.prototype.pop = function() {
-                return this.data.shift()[0]
-            }
-
-            PriorityQueue.prototype.size = function() {
-                return this.data.length
-            }
-
-
-        </script>
-        
-        <script>
-              var svg = d3.select("body").append("svg")
-                            .attr("width", 800)
-                            .attr("height", 500);
-                    var json = {"edges":[
-{"source":6, "target":20},
-{"source":12, "target":0},
-{"source":23, "target":13},
-{"source":3, "target":1},
-{"source":7, "target":20},
-{"source":25, "target":3},
-{"source":4, "target":11},
-{"source":16, "target":20},
-{"source":9, "target":0},
-{"source":25, "target":13},
-{"source":16, "target":4},
-{"source":4, "target":13},
-{"source":5, "target":15},
-{"source":4, "target":17},
-{"source":9, "target":25},
-{"source":4, "target":25},
-{"source":16, "target":8},
-{"source":6, "target":5},
-{"source":6, "target":18},
-{"source":4, "target":5},
-{"source":9, "target":19},
-{"source":9, "target":20},
-{"source":4, "target":14},
-{"source":9, "target":5},
-{"source":4, "target":15},
-{"source":12, "target":3},
-{"source":0, "target":1},
-{"source":9, "target":17},
-{"source":17, "target":15},
-{"source":23, "target":18},
-{"source":16, "target":5},
-{"source":4, "target":23},
-{"source":24, "target":6},
-{"source":9, "target":14},
-{"source":16, "target":6}
-],
-"nodes":[
-{"y":134.324462891,"x":-113.536003113,"id":20,"label":"node1"},
-{"y":51.229637146,"x":155.395904541,"id":25,"label":"node2"},
-{"y":46.6591949463,"x":-207.792068481,"id":13,"label":"node3"},
-{"y":27.60389328,"x":133.966064453,"id":2,"label":"node4"},
-{"y":126.531860352,"x":-26.9523639679,"id":24,"label":"node5"},
-{"y":163.070098877,"x":-86.976524353,"id":7,"label":"node6"},
-{"y":-221.938049316,"x":-80.8975143433,"id":21,"label":"node7"},
-{"y":52.953651428,"x":-95.7600021362,"id":4,"label":"node8"},
-{"y":-12.805847168,"x":189.149490356,"id":12,"label":"node9"},
-{"y":141.481781006,"x":-60.2801208496,"id":6,"label":"node10"},
-{"y":-81.550979614,"x":112.394180298,"id":3,"label":"node11"},
-{"y":23.1120529175,"x":225.898086548,"id":17,"label":"node12"},
-{"y":-87.168624878,"x":-78.1010284424,"id":14,"label":"node13"},
-{"y":65.189682007,"x":-212.771820068,"id":11,"label":"node14"},
-{"y":-176.750244141,"x":58.5323791504,"id":1,"label":"node15"},
-{"y":-52.795600891,"x":154.782455444,"id":0,"label":"node16"},
-{"y":176.595153809,"x":30.1155319214,"id":8,"label":"node17"},
-{"y":84.641799927,"x":185.32460022,"id":19,"label":"node18"},
-{"y":-157.174133301,"x":-258.442382812,"id":10,"label":"node19"},
-{"y":77.960739136,"x":53.8596191406,"id":9,"label":"node20"},
-{"y":67.204818726,"x":-68.0021133423,"id":5,"label":"node21"},
-{"y":50.07220459,"x":-2.34326410294,"id":18,"label":"node22"},
-{"y":37.9620285034,"x":-138.772369385,"id":23,"label":"node23"},
-{"y":94.446624756,"x":-48.3559761047,"id":16,"label":"node24"},
-{"y":155.012207031,"x":-64.1417312622,"id":22,"label":"node25"},
-{"y":21.2733154297,"x":110.682693481,"id":15,"label":"node26"}
-]}            
-                    console.log(json);
-                    var nodes = json.nodes.map(function(d){
-                        return {
-                            'index':d.id,
-                            'x':d.x,
-                            'y':d.y,
-                            'fixed':true,
-                            'label':d.label,
-                        }
-                    });
-
-                    var links = json.edges.map(function(l){
-                        return {
-                            'source':parseInt(l.source),
-                            'target':parseInt(l.target)
-                        }
-                    });
-
-                    edges = links.map(function(l){
-                        return {
-                            'source' : l.source,
-                            'target' : l.target
-                        }
-                    });
-
-                      var foci = [];
-                    var labelNodes = [];
-
-                    for(i=0; i < nodes.length; i ++){
-                        var center = {x: nodes[i].x, y: nodes[i].y}
-                        foci.push(center);
-                        
-                        center["label"] = nodes[i].label;
-                        center["index"] = nodes[i].index;
-                        
-                        labelNodes.push(center)
-                    }
-                    
-
-                    var force = d3.layout.force()
-                                    .nodes(nodes)
-                                    .links(links)
-      
-                    force.start();
-
-                  
-
-                    var force2 = d3.layout.force()
-                                .nodes(labelNodes)
-                                .links([])
-                                .gravity(0)
-                                .charge(-6)
-                                .on("tick", tick)
-      
-                    force2.start();
-
-
-                    svg.append("g")
-                    .attr("class", "network")
-                    .attr("transform", "translate(430, 270)");
-      
-                    var network = svg.selectAll("g.network")
-    
-                    console.log(network);
-
-                    network.append("g")
-                    .selectAll("line.link")
-                    .data(links).enter()
-                    .append("line")
-                    .attr("class", "link")
-      
-                    var link = svg.selectAll(".link")
- 
-                    network.append("g")
-                    .attr("class", "nodes")
-                    .selectAll("g.node")
-                    .data(force.nodes())
-                    .enter()
-                    .append("svg:g")
-                    .attr("class", "node")
-                    .attr("fill",function(){
-                        return "blue";
-                    })
-                    .attr("fill-opacity",0.2)
-                    .attr("id",function(d){
-                        return "n-"+d.index;
-                    })   
-
-                    var node = svg.selectAll("g.node")
-                    
-
-                    node.on("click",function(){
-
-                        if(current!==null)
-                        current.attr("fill","blue");
-
-                        d3.select(this).selectAll("circle").attr("fill","red");
-                        current = d3.select(this).selectAll("circle");
-                    });
-
-                    node.append("svg:circle")
-                    .attr("r", function(d) { return 10; })
-                    .attr("cx", function(d) { return d.x; })
-                    .attr("cy", function(d) { return d.y; });
-
-                    node.append("text")
-	                    .attr("dx", function(d){return d.x;})
-                        .attr("dy", function(d) { return d.y; })
-                        .attr("fill","black")
-                        .attr("fill-opacity",1);
-
-                    
-                    
-                    network.append("g").attr("class", "labels")
-                    .selectAll("g.label")
-                    .data(labelNodes)
-                    .enter()
-                    .append("svg:text")
-                    .attr("class", "label")
-                    .text(function(d) {return "";})
-      
-                    var label = svg.selectAll(".labels text")
-                    
-                    function tick(test) {
-
-                        var k = .1* test.alpha;
-                        
-                        labelNodes.forEach(function(d){
-                        d.y += (labelNodes[d.index].y - d.y) * k;
-                        d.x += (labelNodes[d.index].x - d.x) * k;
-                        });
-                        
-                        // label.attr("x", function(d) { return d.x; })
-                        // .attr("y", function(d) { return d.y; });
-                
-                        link.attr("x1", function(d) { return d.source.x; })
-                            .attr("y1", function(d) { return d.source.y; })
-                            .attr("x2", function(d) { return d.target.x; })
-                            .attr("y2", function(d) { return d.target.y; });
-                    }
-      
-        </script>
-    </body>
-    
-</html>
-<!--
- function Dijkstra(Graph, source):
-     dist[source] ← 0                                    // Initialization
-
-     create vertex set Q
-
-     for each vertex v in Graph:           
-         if v ≠ source
-             dist[v] ← INFINITY                          // Unknown distance from source to v
-             prev[v] ← UNDEFINED                         // Predecessor of v
-
-         Q.add_with_priority(v, dist[v])
-
-
-     while Q is not empty:                              // The main loop
-         u ← Q.extract_min()                            // Remove and return best vertex
-         for each neighbor v of u:                      // only v that is still in Q
-             alt ← dist[u] + length(u, v) 
-             if alt < dist[v]
-                 dist[v] ← alt
-                 prev[v] ← u
-                 Q.decrease_priority(v, alt)
-
-     return dist[], prev[]
-
-    -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script>
+      var $item = $('.carousel .item'); 
+      var $wHeight =  screen.height-70;
+      $item.eq(0).addClass('active');
+      $item.height($wHeight); 
+      $item.addClass('full-screen');
+      $('.carousel img').each(function() {
+        var $src = $(this).attr('src');
+        var $color = $(this).attr('data-color');
+        $(this).parent().css({
+          'background-image' : 'url(' + $src + ')',
+          'background-color' : $color
+        });
+        $(this).remove();
+      });
+      $(window).on('resize', function (){
+        $wHeight = $(window).height();
+        $item.height($wHeight);
+      });
+      $('.carousel').carousel({
+        interval: 6000,
+        pause: "false"
+      });
+    </script>
+</body>
